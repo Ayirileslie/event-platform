@@ -1,0 +1,30 @@
+{
+  "name": "event-platform",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @event/frontend dev",
+    "dev:backend": "pnpm --filter @event/backend dev",
+    "dev:all": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "build:backend": "pnpm --filter @event/backend build",
+    "build:frontend": "pnpm --filter @event/frontend build",
+    "build:infra": "pnpm --filter @event/infrastructure build",
+    "deploy": "pnpm build:backend && pnpm --filter @event/infrastructure deploy",
+    "deploy:infra": "pnpm --filter @event/infrastructure deploy",
+    "synth": "pnpm --filter @event/infrastructure synth",
+    "bootstrap": "pnpm --filter @event/infrastructure bootstrap",
+    "lint": "eslint . --ext .ts,.tsx,.js --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^8.56.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.5.4",
+    "vite": "^7.2.4"
+  }
+}

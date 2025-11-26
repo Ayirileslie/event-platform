@@ -1,0 +1,9 @@
+/* packages/frontend/src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* optional: global styles */
+body {
+  @apply bg-gray-100 text-gray-900;
+}

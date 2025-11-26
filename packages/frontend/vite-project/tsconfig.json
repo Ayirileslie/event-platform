@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "composite": true,
+    "skipLibCheck": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "preserveSymlinks": true  // <-- ADD THIS LINE
+  },
+  "include": ["src", "vite.config.ts", "src/pages/Dashboard.tsx"]
+}
