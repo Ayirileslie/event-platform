@@ -11,9 +11,6 @@ export class InfrastructureStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // -----------------------------
-    // DynamoDB Table
-    // -----------------------------
     const table = new dynamodb.Table(this, "EventTable", {
       tableName: "EventTable",
       partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
@@ -22,14 +19,12 @@ export class InfrastructureStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    // -----------------------------
-    // Lambda Functions
-    // -----------------------------
     const createLambda = (name: string, file: string) =>
       new NodejsFunction(this, name, {
         entry: path.join(__dirname, `../../backend/dist/${file}`),
         handler: "handler",
         runtime: lambda.Runtime.NODEJS_20_X,
+        timeout: cdk.Duration.seconds(10),
         environment: {
           TABLE_NAME: table.tableName,
           JWT_SECRET: process.env.JWT_SECRET || "supersecret",
@@ -40,22 +35,20 @@ export class InfrastructureStack extends cdk.Stack {
     const loginLambda = createLambda("LoginLambda", "auth/login.js");
     const createEventLambda = createLambda("CreateEventLambda", "events/createEvent.js");
     const listEventsLambda = createLambda("ListEventsLambda", "events/listEvents.js");
+    const getEventLambda = createLambda("GetEventLambda", "events/getEvent.js");
     const registerLambda = createLambda("RegisterLambda", "events/register.js");
     const cancelRegistrationLambda = createLambda("CancelRegistrationLambda", "events/cancelRegistration.js");
 
-    // Grant DynamoDB permissions
     [
       signupLambda,
       loginLambda,
       createEventLambda,
       listEventsLambda,
+      getEventLambda,
       registerLambda,
       cancelRegistrationLambda,
     ].forEach((fn) => table.grantReadWriteData(fn));
 
-    // -----------------------------
-    // HTTP API
-    // -----------------------------
     const httpApi = new apigateway.HttpApi(this, "HttpApi", {
       apiName: "EventPlatformApi",
       corsPreflight: {
@@ -72,9 +65,6 @@ export class InfrastructureStack extends cdk.Stack {
       },
     });
 
-    // -----------------------------
-    // Auth Routes
-    // -----------------------------
     httpApi.addRoutes({
       path: "/auth/signup",
       methods: [apigateway.HttpMethod.POST],
@@ -85,10 +75,6 @@ export class InfrastructureStack extends cdk.Stack {
       methods: [apigateway.HttpMethod.POST],
       integration: new HttpLambdaIntegration("LoginIntegration", loginLambda),
     });
-
-    // -----------------------------
-    // Event Routes
-    // -----------------------------
     httpApi.addRoutes({
       path: "/events/all",
       methods: [apigateway.HttpMethod.GET],
@@ -99,10 +85,11 @@ export class InfrastructureStack extends cdk.Stack {
       methods: [apigateway.HttpMethod.POST],
       integration: new HttpLambdaIntegration("CreateEventIntegration", createEventLambda),
     });
-
-    // -----------------------------
-    // Registration Routes
-    // -----------------------------
+    httpApi.addRoutes({
+      path: "/events/{id}",
+      methods: [apigateway.HttpMethod.GET],
+      integration: new HttpLambdaIntegration("GetEventIntegration", getEventLambda),
+    });
     httpApi.addRoutes({
       path: "/events/register",
       methods: [apigateway.HttpMethod.POST],
@@ -114,9 +101,6 @@ export class InfrastructureStack extends cdk.Stack {
       integration: new HttpLambdaIntegration("CancelRegistrationIntegration", cancelRegistrationLambda),
     });
 
-    // -----------------------------
-    // Output API Endpoint
-    // -----------------------------
     new cdk.CfnOutput(this, "ApiUrl", { value: httpApi.apiEndpoint });
   }
 }

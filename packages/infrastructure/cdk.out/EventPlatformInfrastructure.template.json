@@ -115,7 +115,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "85510beefc4364e982adbd170b81200a9ef96c2af1574aa3d4800ab9e2fdef34.zip"
+     "S3Key": "fcb4831cb0c37029b12d2663db58f787b3109a28de57affebfb9286ebdd6591d.zip"
     },
     "Environment": {
      "Variables": {
@@ -132,7 +132,8 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
    },
    "DependsOn": [
     "SignupLambdaServiceRoleDefaultPolicy17109C9B",
@@ -140,7 +141,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/SignupLambda/Resource",
-    "aws:asset:path": "asset.85510beefc4364e982adbd170b81200a9ef96c2af1574aa3d4800ab9e2fdef34",
+    "aws:asset:path": "asset.fcb4831cb0c37029b12d2663db58f787b3109a28de57affebfb9286ebdd6591d",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -228,7 +229,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "c9811950da595847e913dedb6afa22218f009a864e3d76be7d25d9c00dcbeb35.zip"
+     "S3Key": "a246f83d3c22bd84e69701a1aee6f04f57f10abfe1577dfcae8886700c2d7e33.zip"
     },
     "Environment": {
      "Variables": {
@@ -245,7 +246,8 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
    },
    "DependsOn": [
     "LoginLambdaServiceRoleDefaultPolicy1D9CE697",
@@ -253,7 +255,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/LoginLambda/Resource",
-    "aws:asset:path": "asset.c9811950da595847e913dedb6afa22218f009a864e3d76be7d25d9c00dcbeb35",
+    "aws:asset:path": "asset.a246f83d3c22bd84e69701a1aee6f04f57f10abfe1577dfcae8886700c2d7e33",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -341,7 +343,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "d0882969a1f4e04db1e7c6f1fd24188d68069767d3347be7ebaef3763c315f5e.zip"
+     "S3Key": "e757320e3abc1417f3d9dc3704ba23dcb2fc4c601f1e9805464a525b01b1af9c.zip"
     },
     "Environment": {
      "Variables": {
@@ -358,7 +360,8 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
    },
    "DependsOn": [
     "CreateEventLambdaServiceRoleDefaultPolicy01EE761E",
@@ -366,7 +369,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/CreateEventLambda/Resource",
-    "aws:asset:path": "asset.d0882969a1f4e04db1e7c6f1fd24188d68069767d3347be7ebaef3763c315f5e",
+    "aws:asset:path": "asset.e757320e3abc1417f3d9dc3704ba23dcb2fc4c601f1e9805464a525b01b1af9c",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -454,7 +457,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "2bf6f55102a952e00f1eeb5a70db55d08a34965198d637343938065ab7739d59.zip"
+     "S3Key": "7a682943c16da7ef1da6515df8d8a18b25fb5a08d3436332c355e6df9de76db0.zip"
     },
     "Environment": {
      "Variables": {
@@ -471,7 +474,8 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
    },
    "DependsOn": [
     "ListEventsLambdaServiceRoleDefaultPolicy8D9F9E3A",
@@ -479,7 +483,121 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/ListEventsLambda/Resource",
-    "aws:asset:path": "asset.2bf6f55102a952e00f1eeb5a70db55d08a34965198d637343938065ab7739d59",
+    "aws:asset:path": "asset.7a682943c16da7ef1da6515df8d8a18b25fb5a08d3436332c355e6df9de76db0",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetEventLambdaServiceRole1FFF8245": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventPlatformInfrastructure/GetEventLambda/ServiceRole/Resource"
+   }
+  },
+  "GetEventLambdaServiceRoleDefaultPolicy0D44A696": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "EventTable3F3CD4B2",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetEventLambdaServiceRoleDefaultPolicy0D44A696",
+    "Roles": [
+     {
+      "Ref": "GetEventLambdaServiceRole1FFF8245"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventPlatformInfrastructure/GetEventLambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetEventLambda51571DF5": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "449cca436749b5daca546127d9c41dbe676f18e9ef462787059bd7dd16fd2fe3.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "EventTable3F3CD4B2"
+      },
+      "JWT_SECRET": "supersecret"
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "GetEventLambdaServiceRole1FFF8245",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "GetEventLambdaServiceRoleDefaultPolicy0D44A696",
+    "GetEventLambdaServiceRole1FFF8245"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "EventPlatformInfrastructure/GetEventLambda/Resource",
+    "aws:asset:path": "asset.449cca436749b5daca546127d9c41dbe676f18e9ef462787059bd7dd16fd2fe3",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -567,7 +685,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "ec44e499901e58657fa5919831db655a65e600a80407e694206f37c7d22626b0.zip"
+     "S3Key": "3d4c06bba6e9f2384f7c80f53c11334690f95c8a488598bfcb2ab3ff1a25b51f.zip"
     },
     "Environment": {
      "Variables": {
@@ -584,7 +702,8 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
    },
    "DependsOn": [
     "RegisterLambdaServiceRoleDefaultPolicy9CE91415",
@@ -592,7 +711,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/RegisterLambda/Resource",
-    "aws:asset:path": "asset.ec44e499901e58657fa5919831db655a65e600a80407e694206f37c7d22626b0",
+    "aws:asset:path": "asset.3d4c06bba6e9f2384f7c80f53c11334690f95c8a488598bfcb2ab3ff1a25b51f",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -680,7 +799,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "b399d7b7d5db14279f925128bff97c3120704acf5ef39aac4d526d814276edba.zip"
+     "S3Key": "fbac6eea937f1731adaddf357ef427bab9a62d14d13a21e42b88cbdb48fe518b.zip"
     },
     "Environment": {
      "Variables": {
@@ -697,7 +816,8 @@
       "Arn"
      ]
     },
-    "Runtime": "nodejs20.x"
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
    },
    "DependsOn": [
     "CancelRegistrationLambdaServiceRoleDefaultPolicy59AFE1B5",
@@ -705,7 +825,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/CancelRegistrationLambda/Resource",
-    "aws:asset:path": "asset.b399d7b7d5db14279f925128bff97c3120704acf5ef39aac4d526d814276edba",
+    "aws:asset:path": "asset.fbac6eea937f1731adaddf357ef427bab9a62d14d13a21e42b88cbdb48fe518b",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1080,6 +1200,89 @@
    },
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/HttpApi/POST--events--create/Resource"
+   }
+  },
+  "HttpApiGETeventsidGetEventIntegration0D7D6C84": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "HttpApiF5A9A8A7"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "GetEventLambda51571DF5",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventPlatformInfrastructure/HttpApi/GET--events--{id}/GetEventIntegration/Resource"
+   }
+  },
+  "HttpApiGETeventsidGetEventIntegrationPermissionF896FE97": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetEventLambda51571DF5",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "HttpApiF5A9A8A7"
+       },
+       "/*/*/events/{id}"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventPlatformInfrastructure/HttpApi/GET--events--{id}/GetEventIntegration-Permission"
+   }
+  },
+  "HttpApiGETeventsid42DDFCD4": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "HttpApiF5A9A8A7"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "GET /events/{id}",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "HttpApiGETeventsidGetEventIntegration0D7D6C84"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventPlatformInfrastructure/HttpApi/GET--events--{id}/Resource"
    }
   },
   "HttpApiPOSTeventsregisterRegisterIntegrationF275BB60": {

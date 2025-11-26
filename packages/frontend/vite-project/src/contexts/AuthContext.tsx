@@ -1,9 +1,10 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 interface User {
-  _id: string;
-  name: string;
+  email: string;
   role: "organizer" | "attendee";
+  userId: string;
 }
 
 export interface AuthContextType {
@@ -20,28 +21,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (stored) {
+    const token = localStorage.getItem("token");
+    if (token) {
       try {
-        setUser(JSON.parse(stored));
+        const decoded = jwtDecode<any>(token);
+        setUser({
+          userId: decoded.sub || decoded.email,
+          email: decoded.email,
+          role: decoded.role,
+        });
       } catch (e) {
-        console.error("Failed to parse user from localStorage");
+        console.error("Failed to decode token");
+        localStorage.removeItem("token");
       }
     }
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    } else {
-      localStorage.removeItem("user");
-    }
-  }, [user]);
-
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
   };
 

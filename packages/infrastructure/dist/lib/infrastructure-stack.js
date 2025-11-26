@@ -44,9 +44,6 @@ const path = __importStar(require("path"));
 class InfrastructureStack extends cdk.Stack {
     constructor(scope, id, props) {
         super(scope, id, props);
-        // -----------------------------
-        // DynamoDB Table
-        // -----------------------------
         const table = new dynamodb.Table(this, "EventTable", {
             tableName: "EventTable",
             partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
@@ -54,13 +51,11 @@ class InfrastructureStack extends cdk.Stack {
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
             removalPolicy: cdk.RemovalPolicy.DESTROY,
         });
-        // -----------------------------
-        // Lambda Functions
-        // -----------------------------
         const createLambda = (name, file) => new aws_lambda_nodejs_1.NodejsFunction(this, name, {
             entry: path.join(__dirname, `../../backend/dist/${file}`),
             handler: "handler",
             runtime: lambda.Runtime.NODEJS_20_X,
+            timeout: cdk.Duration.seconds(10),
             environment: {
                 TABLE_NAME: table.tableName,
                 JWT_SECRET: process.env.JWT_SECRET || "supersecret",
@@ -70,20 +65,18 @@ class InfrastructureStack extends cdk.Stack {
         const loginLambda = createLambda("LoginLambda", "auth/login.js");
         const createEventLambda = createLambda("CreateEventLambda", "events/createEvent.js");
         const listEventsLambda = createLambda("ListEventsLambda", "events/listEvents.js");
+        const getEventLambda = createLambda("GetEventLambda", "events/getEvent.js");
         const registerLambda = createLambda("RegisterLambda", "events/register.js");
         const cancelRegistrationLambda = createLambda("CancelRegistrationLambda", "events/cancelRegistration.js");
-        // Grant DynamoDB permissions
         [
             signupLambda,
             loginLambda,
             createEventLambda,
             listEventsLambda,
+            getEventLambda,
             registerLambda,
             cancelRegistrationLambda,
         ].forEach((fn) => table.grantReadWriteData(fn));
-        // -----------------------------
-        // HTTP API
-        // -----------------------------
         const httpApi = new apigateway.HttpApi(this, "HttpApi", {
             apiName: "EventPlatformApi",
             corsPreflight: {
@@ -99,9 +92,6 @@ class InfrastructureStack extends cdk.Stack {
                 maxAge: cdk.Duration.days(1),
             },
         });
-        // -----------------------------
-        // Auth Routes
-        // -----------------------------
         httpApi.addRoutes({
             path: "/auth/signup",
             methods: [apigateway.HttpMethod.POST],
@@ -112,9 +102,6 @@ class InfrastructureStack extends cdk.Stack {
             methods: [apigateway.HttpMethod.POST],
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("LoginIntegration", loginLambda),
         });
-        // -----------------------------
-        // Event Routes
-        // -----------------------------
         httpApi.addRoutes({
             path: "/events/all",
             methods: [apigateway.HttpMethod.GET],
@@ -125,9 +112,11 @@ class InfrastructureStack extends cdk.Stack {
             methods: [apigateway.HttpMethod.POST],
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("CreateEventIntegration", createEventLambda),
         });
-        // -----------------------------
-        // Registration Routes
-        // -----------------------------
+        httpApi.addRoutes({
+            path: "/events/{id}",
+            methods: [apigateway.HttpMethod.GET],
+            integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("GetEventIntegration", getEventLambda),
+        });
         httpApi.addRoutes({
             path: "/events/register",
             methods: [apigateway.HttpMethod.POST],
@@ -138,9 +127,6 @@ class InfrastructureStack extends cdk.Stack {
             methods: [apigateway.HttpMethod.DELETE],
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("CancelRegistrationIntegration", cancelRegistrationLambda),
         });
-        // -----------------------------
-        // Output API Endpoint
-        // -----------------------------
         new cdk.CfnOutput(this, "ApiUrl", { value: httpApi.apiEndpoint });
     }
 }

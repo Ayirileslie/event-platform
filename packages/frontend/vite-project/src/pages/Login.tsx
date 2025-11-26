@@ -2,6 +2,7 @@ import { useState } from "react";
 import { login } from "../api/auth";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const { setUser } = useAuth();
@@ -14,11 +15,19 @@ export default function Login() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    
+
     try {
       const res = await login(form);
       localStorage.setItem("token", res.token);
-      setUser(res.user);
+      
+      // Decode the JWT to get user info
+      const decoded = jwtDecode<any>(res.token);
+      setUser({
+        userId: decoded.sub || decoded.email,
+        email: decoded.email,
+        role: decoded.role,
+      });
+      
       navigate("/", { replace: true });
     } catch (err: any) {
       setError(err.message || "Login failed");
@@ -50,7 +59,7 @@ export default function Login() {
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           required
         />
-        <button 
+        <button
           className="bg-blue-600 text-white px-4 py-2 rounded w-full disabled:bg-gray-400"
           disabled={loading}
         >

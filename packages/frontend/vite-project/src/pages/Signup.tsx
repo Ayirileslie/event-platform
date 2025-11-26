@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { signup } from "../api/auth";
 import { useNavigate, Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -17,10 +20,24 @@ export default function Signup() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    
+
     try {
-      await signup(form);
-      navigate("/login");
+      const res = await signup(form);
+      
+      // If signup returns a token, log them in directly
+      if (res.token) {
+        localStorage.setItem("token", res.token);
+        const decoded = jwtDecode<any>(res.token);
+        setUser({
+          userId: decoded.sub || decoded.email,
+          email: decoded.email,
+          role: decoded.role,
+        });
+        navigate("/", { replace: true });
+      } else {
+        // Otherwise redirect to login
+        navigate("/login");
+      }
     } catch (err: any) {
       setError(err.message || "Signup failed");
     } finally {
@@ -67,7 +84,7 @@ export default function Signup() {
           <option value="attendee">Attendee</option>
           <option value="organizer">Organizer</option>
         </select>
-        <button 
+        <button
           className="bg-green-600 text-white px-4 py-2 rounded w-full disabled:bg-gray-400"
           disabled={loading}
         >

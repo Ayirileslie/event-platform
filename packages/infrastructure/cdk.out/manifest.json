@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/946b4a456329d415e475fc103cfb3fb9ce2315c8aac3172bf256ca184c905039.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcecc74c1e70fcd1e2d3556597bf96864f33d7d3902a4e22ed51a1e594c9ce6e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -118,6 +118,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ListEventsLambda6CFC6FCA"
+          }
+        ],
+        "/EventPlatformInfrastructure/GetEventLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetEventLambdaServiceRole1FFF8245"
+          }
+        ],
+        "/EventPlatformInfrastructure/GetEventLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetEventLambdaServiceRoleDefaultPolicy0D44A696"
+          }
+        ],
+        "/EventPlatformInfrastructure/GetEventLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetEventLambda51571DF5"
           }
         ],
         "/EventPlatformInfrastructure/RegisterLambda/ServiceRole/Resource": [
@@ -238,6 +256,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "HttpApiPOSTeventscreate5C0063B5"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--{id}/GetEventIntegration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsidGetEventIntegration0D7D6C84"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--{id}/GetEventIntegration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsidGetEventIntegrationPermissionF896FE97"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsid42DDFCD4"
           }
         ],
         "/EventPlatformInfrastructure/HttpApi/POST--events--register/RegisterIntegration/Resource": [
