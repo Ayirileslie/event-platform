@@ -1,104 +1,133 @@
 import { useEffect, useState } from "react";
 import { listAllEvents } from "../api/events";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-
-interface Event {
-  PK: string;
-  SK: string;
-  name: string;
-  description: string;
-  date: string;
-  location: string;
-  capacity: number;
-}
 
 export default function EventsList() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { logout } = useAuth();
 
   useEffect(() => {
     loadEvents();
   }, []);
+
+  useEffect(() => {
+    filterEvents();
+  }, [startDate, endDate, events]);
 
   async function loadEvents() {
     try {
       setLoading(true);
       const data = await listAllEvents();
       setEvents(data);
-    } catch (err: any) {
-      setError(err.message || "Failed to load events");
+      setFilteredEvents(data);
+    } catch (err) {
+      console.error("Failed to load events:", err);
     } finally {
       setLoading(false);
     }
   }
 
-  if (loading) return <div className="p-8 text-center">Loading events...</div>;
+  function filterEvents() {
+    let filtered = [...events];
+
+    if (startDate) {
+      filtered = filtered.filter(event => event.date >= startDate);
+    }
+
+    if (endDate) {
+      filtered = filtered.filter(event => event.date <= endDate);
+    }
+
+    filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    setFilteredEvents(filtered);
+  }
+
+  function clearFilters() {
+    setStartDate("");
+    setEndDate("");
+  }
+
+  if (loading) {
+    return <div className="p-8">Loading events...</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b mb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <button
-              onClick={() => navigate("/")}
-              className="text-xl font-bold text-gray-900 hover:text-blue-600"
-            >
-              ‚Üê Back to Dashboard
-            </button>
-            <button
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-              onClick={() => {
-                logout();
-                navigate("/login");
-              }}
-            >
-              Logout
-            </button>
+    <div className="p-8 space-y-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">All Events</h1>
+        <button
+          className="bg-gray-600 text-white px-4 py-2 rounded"
+          onClick={() => navigate("/")}
+        >
+          Back to Dashboard
+        </button>
+      </div>
+
+      <div className="bg-white p-4 rounded-lg shadow space-y-4 mb-6">
+        <h2 className="text-lg font-semibold">Filter by Date</h2>
+        <div className="flex gap-4 flex-wrap items-end">
+          <div className="flex-1 min-w-[200px]">
+            <label className="block text-sm font-medium mb-1">Start Date</label>
+            <input
+              type="date"
+              className="border p-2 w-full rounded"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
           </div>
+          <div className="flex-1 min-w-[200px]">
+            <label className="block text-sm font-medium mb-1">End Date</label>
+            <input
+              type="date"
+              className="border p-2 w-full rounded"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            onClick={clearFilters}
+          >
+            Clear Filters
+          </button>
         </div>
-      </nav>
+        <p className="text-sm text-gray-600">
+          Showing {filteredEvents.length} of {events.length} events
+        </p>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold mb-6">All Events</h1>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
-
-        {events.length === 0 ? (
-          <p className="text-gray-600">No events available at the moment.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event) => (
-              <div
-                key={event.PK}
-                className="bg-white border border-gray-200 p-6 rounded-lg shadow hover:shadow-lg transition"
+      {filteredEvents.length === 0 ? (
+        <p className="text-gray-500">No events found.</p>
+      ) : (
+        <div className="space-y-4">
+          {filteredEvents.map((event) => (
+            <div key={event.PK} className="border p-4 rounded bg-white shadow">
+              <h2 className="text-xl font-semibold">{event.name}</h2>
+              <p className="text-gray-600">{event.description}</p>
+              <p className="text-sm text-gray-500 mt-2">
+                <strong>Date:</strong> {new Date(event.date).toLocaleDateString()}
+              </p>
+              <p className="text-sm text-gray-500">
+                <strong>Location:</strong> {event.location}
+              </p>
+              <p className="text-sm text-gray-500">
+                <strong>Capacity:</strong> {event.capacity}
+              </p>
+              <button
+                className="bg-blue-600 text-white px-3 py-1 rounded mt-2 hover:bg-blue-700"
+                onClick={() => navigate(`/events/${event.PK.replace('EVENT#', '')}`)}
               >
-                <h2 className="text-xl font-semibold mb-2">{event.name}</h2>
-                <p className="text-gray-700 mb-3 line-clamp-2">{event.description}</p>
-                <p className="text-sm text-gray-600 mb-1">
-                  Ì≥ç {event.location}
-                </p>
-                <p className="text-sm text-gray-600 mb-3">
-                  Ì≥Ö {new Date(event.date).toLocaleDateString()}
-                </p>
-                <button
-                  className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-                  onClick={() => navigate(`/events/${event.PK.replace('EVENT#', '')}`)}
-                >
-                  View Details
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
+                View Details
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

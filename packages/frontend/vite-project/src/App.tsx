@@ -9,6 +9,7 @@ import EventDetails from "./pages/EventDetails";
 import MyEvents from "./pages/MyEvents";
 import CreateEvent from "./pages/CreateEvent";
 import MyRegistrations from "./pages/MyRegistrations";
+import EventRegistrations from "./pages/EventRegistrations";
 
 interface PrivateRouteProps {
   children: JSX.Element;
@@ -42,7 +43,6 @@ function AppRoutes() {
 
   return (
     <Routes>
-      {/* Public Routes */}
       <Route 
         path="/login" 
         element={user ? <Navigate to="/" replace /> : <Login />} 
@@ -52,7 +52,6 @@ function AppRoutes() {
         element={user ? <Navigate to="/" replace /> : <Signup />} 
       />
 
-      {/* Protected Routes */}
       <Route
         path="/"
         element={
@@ -86,6 +85,14 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/events/:id/registrations"
+        element={
+          <PrivateRoute role="organizer">
+            <EventRegistrations />
+          </PrivateRoute>
+        }
+      />
+      <Route
         path="/create-event"
         element={
           <PrivateRoute role="organizer">
@@ -102,7 +109,6 @@ function AppRoutes() {
         }
       />
 
-      {/* Catch-all redirect */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

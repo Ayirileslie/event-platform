@@ -14,6 +14,28 @@ const handler = async (event) => {
         if (!eventId) {
             return { statusCode: 400, body: JSON.stringify({ error: "Missing eventId" }) };
         }
+        // Get event details
+        const eventResult = await (0, db_1.getItem)(`EVENT#${eventId}`, "DETAILS");
+        if (!eventResult.Item) {
+            return { statusCode: 404, body: JSON.stringify({ error: "Event not found" }) };
+        }
+        // Check if already registered
+        const existingReg = await (0, db_1.getItem)(`REG#${eventId}`, `USER#${user.userId}`);
+        if (existingReg.Item) {
+            return { statusCode: 409, body: JSON.stringify({ error: "Already registered" }) };
+        }
+        // Check capacity
+        const registrationsResult = await (0, db_1.queryItems)({
+            KeyConditionExpression: "PK = :pk",
+            ExpressionAttributeValues: {
+                ":pk": `REG#${eventId}`,
+            },
+        });
+        const currentRegistrations = registrationsResult.Items?.length || 0;
+        if (currentRegistrations >= eventResult.Item.capacity) {
+            return { statusCode: 400, body: JSON.stringify({ error: "Event is at full capacity" }) };
+        }
+        // Create registration
         const registration = {
             PK: `REG#${eventId}`,
             SK: `USER#${user.userId}`,
@@ -24,7 +46,10 @@ const handler = async (event) => {
         await (0, db_1.putItem)(registration);
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: "Registered successfully" }),
+            body: JSON.stringify({
+                message: "Registered successfully",
+                registration,
+            }),
         };
     }
     catch (err) {

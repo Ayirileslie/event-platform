@@ -1,4 +1,3 @@
-// packages/backend/src/auth/signup.ts
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { createUser, getUserByEmail } from "../utils/user";
 import { signJwt } from "../lib/jwt";
@@ -13,7 +12,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: "Invalid JSON" }) };
   }
 
-  const { email, password, role } = body;
+  const { name, email, password, role } = body;
 
   if (!email || !password) {
     return { statusCode: 400, body: JSON.stringify({ error: "Email and password required" }) };
@@ -27,10 +26,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       return { statusCode: 409, body: JSON.stringify({ error: "User already exists" }) };
     }
 
-    const user = await createUser(email.toLowerCase(), password, userRole);
+    const user = await createUser(email.toLowerCase(), password, userRole, name);
 
     const token = signJwt({
-      sub: `USER#${email.toLowerCase()}`,   // safe, unique ID
+      userId: email.toLowerCase(),
       email: email.toLowerCase(),
       role: userRole,
     });
@@ -38,7 +37,16 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return {
       statusCode: 201,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, message: "Signup successful" }),
+      body: JSON.stringify({ 
+        token, 
+        user: {
+          _id: email.toLowerCase(),
+          name: name || email.split('@')[0],
+          email: email.toLowerCase(),
+          role: userRole,
+        },
+        message: "Signup successful" 
+      }),
     };
   } catch (error: any) {
     console.error("Signup failed:", error);

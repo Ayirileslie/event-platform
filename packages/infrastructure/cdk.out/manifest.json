@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcecc74c1e70fcd1e2d3556597bf96864f33d7d3902a4e22ed51a1e594c9ce6e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/326f131b147c12ceead5b52889780355a9b6f67a8b1b79a43a8e9d6a72784361.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -120,6 +120,42 @@
             "data": "ListEventsLambda6CFC6FCA"
           }
         ],
+        "/EventPlatformInfrastructure/ListMyEventsLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListMyEventsLambdaServiceRole7F83D1E2"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListMyEventsLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListMyEventsLambdaServiceRoleDefaultPolicyADFED88F"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListMyEventsLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListMyEventsLambdaFCB5380A"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListEventsByDateLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListEventsByDateLambdaServiceRoleDFE93AF7"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListEventsByDateLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListEventsByDateLambdaServiceRoleDefaultPolicy2915F5B6"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListEventsByDateLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListEventsByDateLambda2BDA0C9E"
+          }
+        ],
         "/EventPlatformInfrastructure/GetEventLambda/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -136,6 +172,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "GetEventLambda51571DF5"
+          }
+        ],
+        "/EventPlatformInfrastructure/GetEventRegistrationsLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetEventRegistrationsLambdaServiceRoleD56523AF"
+          }
+        ],
+        "/EventPlatformInfrastructure/GetEventRegistrationsLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetEventRegistrationsLambdaServiceRoleDefaultPolicy7FC25267"
+          }
+        ],
+        "/EventPlatformInfrastructure/GetEventRegistrationsLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetEventRegistrationsLambda76B7E800"
           }
         ],
         "/EventPlatformInfrastructure/RegisterLambda/ServiceRole/Resource": [
@@ -172,6 +226,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CancelRegistrationLambda16F96852"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListMyRegistrationsLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListMyRegistrationsLambdaServiceRole94A540B6"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListMyRegistrationsLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListMyRegistrationsLambdaServiceRoleDefaultPolicyD4212F40"
+          }
+        ],
+        "/EventPlatformInfrastructure/ListMyRegistrationsLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListMyRegistrationsLambda7CE09551"
           }
         ],
         "/EventPlatformInfrastructure/HttpApi/Resource": [
@@ -240,6 +312,42 @@
             "data": "HttpApiGETeventsallDA7E171A"
           }
         ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--my-events/ListMyEventsIntegration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsmyeventsListMyEventsIntegrationA99563F0"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--my-events/ListMyEventsIntegration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsmyeventsListMyEventsIntegrationPermission1D605F89"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--my-events/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsmyeventsBE575C5B"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--by-date/ListEventsByDateIntegration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsbydateListEventsByDateIntegration96E1F214"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--by-date/ListEventsByDateIntegration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsbydateListEventsByDateIntegrationPermission5D401A6D"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--by-date/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsbydate624DA9B5"
+          }
+        ],
         "/EventPlatformInfrastructure/HttpApi/POST--events--create/CreateEventIntegration/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -274,6 +382,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "HttpApiGETeventsid42DDFCD4"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--{id}--registrations/GetEventRegistrationsIntegration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsidregistrationsGetEventRegistrationsIntegration6A209C10"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--{id}--registrations/GetEventRegistrationsIntegration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsidregistrationsGetEventRegistrationsIntegrationPermissionA423A941"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--events--{id}--registrations/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETeventsidregistrationsDE4DE8CD"
           }
         ],
         "/EventPlatformInfrastructure/HttpApi/POST--events--register/RegisterIntegration/Resource": [
@@ -312,10 +438,34 @@
             "data": "HttpApiDELETEeventscancelA615A5C9"
           }
         ],
+        "/EventPlatformInfrastructure/HttpApi/GET--registrations/ListMyRegistrationsIntegration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETregistrationsListMyRegistrationsIntegrationE9190268"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--registrations/ListMyRegistrationsIntegration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETregistrationsListMyRegistrationsIntegrationPermissionCFF1484C"
+          }
+        ],
+        "/EventPlatformInfrastructure/HttpApi/GET--registrations/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiGETregistrations23A62CEE"
+          }
+        ],
         "/EventPlatformInfrastructure/ApiUrl": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ApiUrl"
+          }
+        ],
+        "/EventPlatformInfrastructure/TableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableName"
           }
         ],
         "/EventPlatformInfrastructure/CDKMetadata/Default": [

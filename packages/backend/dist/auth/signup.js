@@ -12,7 +12,7 @@ const handler = async (event) => {
     catch (e) {
         return { statusCode: 400, body: JSON.stringify({ error: "Invalid JSON" }) };
     }
-    const { email, password, role } = body;
+    const { name, email, password, role } = body;
     if (!email || !password) {
         return { statusCode: 400, body: JSON.stringify({ error: "Email and password required" }) };
     }
@@ -22,16 +22,25 @@ const handler = async (event) => {
         if (existing.Item) {
             return { statusCode: 409, body: JSON.stringify({ error: "User already exists" }) };
         }
-        const user = await (0, user_1.createUser)(email.toLowerCase(), password, userRole);
+        const user = await (0, user_1.createUser)(email.toLowerCase(), password, userRole, name);
         const token = (0, jwt_1.signJwt)({
-            sub: `USER#${email.toLowerCase()}`, // safe, unique ID
+            userId: email.toLowerCase(),
             email: email.toLowerCase(),
             role: userRole,
         });
         return {
             statusCode: 201,
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token, message: "Signup successful" }),
+            body: JSON.stringify({
+                token,
+                user: {
+                    _id: email.toLowerCase(),
+                    name: name || email.split('@')[0],
+                    email: email.toLowerCase(),
+                    role: userRole,
+                },
+                message: "Signup successful"
+            }),
         };
     }
     catch (error) {

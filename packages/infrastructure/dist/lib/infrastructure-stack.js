@@ -61,21 +61,33 @@ class InfrastructureStack extends cdk.Stack {
                 JWT_SECRET: process.env.JWT_SECRET || "supersecret",
             },
         });
+        // Auth Lambdas
         const signupLambda = createLambda("SignupLambda", "auth/signup.js");
         const loginLambda = createLambda("LoginLambda", "auth/login.js");
+        // Event Lambdas
         const createEventLambda = createLambda("CreateEventLambda", "events/createEvent.js");
         const listEventsLambda = createLambda("ListEventsLambda", "events/listEvents.js");
+        const listMyEventsLambda = createLambda("ListMyEventsLambda", "events/listMyEvents.js");
+        const listEventsByDateLambda = createLambda("ListEventsByDateLambda", "events/listEventsByDate.js");
         const getEventLambda = createLambda("GetEventLambda", "events/getEvent.js");
+        const getEventRegistrationsLambda = createLambda("GetEventRegistrationsLambda", "events/getEventRegistrations.js");
+        // Registration Lambdas
         const registerLambda = createLambda("RegisterLambda", "events/register.js");
         const cancelRegistrationLambda = createLambda("CancelRegistrationLambda", "events/cancelRegistration.js");
+        const listMyRegistrationsLambda = createLambda("ListMyRegistrationsLambda", "events/listMyRegistrations.js");
+        // Grant DynamoDB permissions to all lambdas
         [
             signupLambda,
             loginLambda,
             createEventLambda,
             listEventsLambda,
+            listMyEventsLambda,
+            listEventsByDateLambda,
             getEventLambda,
+            getEventRegistrationsLambda,
             registerLambda,
             cancelRegistrationLambda,
+            listMyRegistrationsLambda,
         ].forEach((fn) => table.grantReadWriteData(fn));
         const httpApi = new apigateway.HttpApi(this, "HttpApi", {
             apiName: "EventPlatformApi",
@@ -92,6 +104,7 @@ class InfrastructureStack extends cdk.Stack {
                 maxAge: cdk.Duration.days(1),
             },
         });
+        // Auth Routes
         httpApi.addRoutes({
             path: "/auth/signup",
             methods: [apigateway.HttpMethod.POST],
@@ -102,10 +115,21 @@ class InfrastructureStack extends cdk.Stack {
             methods: [apigateway.HttpMethod.POST],
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("LoginIntegration", loginLambda),
         });
+        // Event Routes
         httpApi.addRoutes({
             path: "/events/all",
             methods: [apigateway.HttpMethod.GET],
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("ListEventsIntegration", listEventsLambda),
+        });
+        httpApi.addRoutes({
+            path: "/events/my-events",
+            methods: [apigateway.HttpMethod.GET],
+            integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("ListMyEventsIntegration", listMyEventsLambda),
+        });
+        httpApi.addRoutes({
+            path: "/events/by-date",
+            methods: [apigateway.HttpMethod.GET],
+            integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("ListEventsByDateIntegration", listEventsByDateLambda),
         });
         httpApi.addRoutes({
             path: "/events/create",
@@ -118,6 +142,12 @@ class InfrastructureStack extends cdk.Stack {
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("GetEventIntegration", getEventLambda),
         });
         httpApi.addRoutes({
+            path: "/events/{id}/registrations",
+            methods: [apigateway.HttpMethod.GET],
+            integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("GetEventRegistrationsIntegration", getEventRegistrationsLambda),
+        });
+        // Registration Routes
+        httpApi.addRoutes({
             path: "/events/register",
             methods: [apigateway.HttpMethod.POST],
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("RegisterIntegration", registerLambda),
@@ -127,7 +157,13 @@ class InfrastructureStack extends cdk.Stack {
             methods: [apigateway.HttpMethod.DELETE],
             integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("CancelRegistrationIntegration", cancelRegistrationLambda),
         });
+        httpApi.addRoutes({
+            path: "/registrations",
+            methods: [apigateway.HttpMethod.GET],
+            integration: new aws_apigatewayv2_integrations_1.HttpLambdaIntegration("ListMyRegistrationsIntegration", listMyRegistrationsLambda),
+        });
         new cdk.CfnOutput(this, "ApiUrl", { value: httpApi.apiEndpoint });
+        new cdk.CfnOutput(this, "TableName", { value: table.tableName });
     }
 }
 exports.InfrastructureStack = InfrastructureStack;

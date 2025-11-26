@@ -1,4 +1,3 @@
-// packages/backend/src/utils/user.ts
 import bcrypt from "bcryptjs";
 import { getItem, putItem } from "../lib/db";
 
@@ -8,13 +7,15 @@ export const getUserByEmail = (email: string) =>
 export const createUser = async (
   email: string,
   password: string,
-  role: "organizer" | "attendee" = "attendee"
+  role: "organizer" | "attendee" = "attendee",
+  name?: string
 ) => {
   const passwordHash = await bcrypt.hash(password, 12);
   const user = {
     PK: `USER#${email.toLowerCase()}`,
     SK: "METADATA",
     email: email.toLowerCase(),
+    name: name || email.split('@')[0],
     passwordHash,
     role,
     createdAt: new Date().toISOString(),

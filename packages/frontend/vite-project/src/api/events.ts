@@ -14,6 +14,9 @@ export const listMyEvents = () => api("/events/my-events");
 
 export const getEvent = (eventId: string) => api(`/events/${eventId}`);
 
+export const getEventRegistrations = (eventId: string) => 
+  api(`/events/${eventId}/registrations`);
+
 export const registerEvent = (eventId: string) =>
   api("/events/register", {
     method: "POST",
