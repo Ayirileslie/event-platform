@@ -332,7 +332,7 @@ Content-Type: application/json
 
 1. **Clone the repository**
 ```bash
-git clone <your-repo-url>
+git clone <https://github.com/Ayirileslie/event-platform.git >
 cd event-platform
 ```
 
@@ -358,7 +358,7 @@ pnpm cdk deploy
 
 After deployment, update `packages/frontend/vite-project/.env`:
 ```env
-VITE_API_URL=https://your-api-gateway-url.execute-api.region.amazonaws.com
+VITE_API_URL=https://rfim8ivv3h.execute-api.us-east-1.amazonaws.com
 ```
 
 6. **Build and run frontend**
@@ -518,7 +518,7 @@ This project is licensed under the MIT License.
 
 ## 👥 Authors
 
-- **Your Name** - [Your GitHub](https://github.com/yourusername)
+- **Your Name** - [Your GitHub](https://github.com/ayirileslie)
 
 ---
 
@@ -532,4 +532,4 @@ This project is licensed under the MIT License.
 
 ## 📞 Support
 
-For issues or questions, please open an issue on GitHub or contact [your-email@example.com]
+For issues or questions, please open an issue on GitHub or contact [kperegbeyiayiri@gmail.com]
