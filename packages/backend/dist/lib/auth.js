@@ -9,8 +9,9 @@ const authUser = (event) => {
     }
     const token = authHeader.substring(7);
     const decoded = (0, jwt_1.verifyJwt)(token);
+    // JWT contains: { userId, email, role }
     return {
-        userId: decoded.userId || decoded.email,
+        userId: decoded.userId || decoded.email, // userId is the primary field
         email: decoded.email,
         role: decoded.role,
     };

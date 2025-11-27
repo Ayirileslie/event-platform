@@ -50,10 +50,10 @@ export default function Dashboard() {
               </button>
               <button
                 className="bg-green-600 text-white p-6 rounded-lg shadow hover:bg-green-700 transition"
-                onClick={() => navigate("/events")}
+                onClick={() => navigate("/my-events")}
               >
-                <h3 className="text-xl font-semibold mb-2">View All Events</h3>
-                <p className="text-green-100">See all events in the platform</p>
+                <h3 className="text-xl font-semibold mb-2">My Events</h3>
+                <p className="text-green-100">View and manage your events</p>
               </button>
             </>
           )}

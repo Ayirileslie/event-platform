@@ -343,7 +343,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "e757320e3abc1417f3d9dc3704ba23dcb2fc4c601f1e9805464a525b01b1af9c.zip"
+     "S3Key": "e9fdb163d30a40841167d5241ba3243f4328c56fcd481311b5eee16fbdcaf74c.zip"
     },
     "Environment": {
      "Variables": {
@@ -369,7 +369,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/CreateEventLambda/Resource",
-    "aws:asset:path": "asset.e757320e3abc1417f3d9dc3704ba23dcb2fc4c601f1e9805464a525b01b1af9c",
+    "aws:asset:path": "asset.e9fdb163d30a40841167d5241ba3243f4328c56fcd481311b5eee16fbdcaf74c",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -571,7 +571,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "8652bbc312846619448ec37b70ea9beeed44391f4cf1e7ecd03e11da108bbe6e.zip"
+     "S3Key": "822f28b0064abb99626c7cfb8fe1711dc115a0b0572bce993840ede90902792b.zip"
     },
     "Environment": {
      "Variables": {
@@ -597,7 +597,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/ListMyEventsLambda/Resource",
-    "aws:asset:path": "asset.8652bbc312846619448ec37b70ea9beeed44391f4cf1e7ecd03e11da108bbe6e",
+    "aws:asset:path": "asset.822f28b0064abb99626c7cfb8fe1711dc115a0b0572bce993840ede90902792b",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -913,7 +913,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "3ee7ec656b2d5ce92135b22c2bc775b7d4dd0c4a3b276d62678a2e978fb90c7c.zip"
+     "S3Key": "ab9ed22dcc313c78e04a179c9ec68f1b2afb9bc64ec800def4fb3eeae295304a.zip"
     },
     "Environment": {
      "Variables": {
@@ -939,7 +939,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/GetEventRegistrationsLambda/Resource",
-    "aws:asset:path": "asset.3ee7ec656b2d5ce92135b22c2bc775b7d4dd0c4a3b276d62678a2e978fb90c7c",
+    "aws:asset:path": "asset.ab9ed22dcc313c78e04a179c9ec68f1b2afb9bc64ec800def4fb3eeae295304a",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1027,7 +1027,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "b76d733d23206c1ff0c0d4c430749103584e298bffc992ff04244377f015ab40.zip"
+     "S3Key": "8c56fff3d331067a192e2d3c895a34f6dc79ff6a04a2458c6031842f1dd7789d.zip"
     },
     "Environment": {
      "Variables": {
@@ -1053,7 +1053,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/RegisterLambda/Resource",
-    "aws:asset:path": "asset.b76d733d23206c1ff0c0d4c430749103584e298bffc992ff04244377f015ab40",
+    "aws:asset:path": "asset.8c56fff3d331067a192e2d3c895a34f6dc79ff6a04a2458c6031842f1dd7789d",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1141,7 +1141,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "fbac6eea937f1731adaddf357ef427bab9a62d14d13a21e42b88cbdb48fe518b.zip"
+     "S3Key": "7c6182b4da513672435701afe774f6a05793b258e974ff7dd93b4e0cbe6fe136.zip"
     },
     "Environment": {
      "Variables": {
@@ -1167,7 +1167,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/CancelRegistrationLambda/Resource",
-    "aws:asset:path": "asset.fbac6eea937f1731adaddf357ef427bab9a62d14d13a21e42b88cbdb48fe518b",
+    "aws:asset:path": "asset.7c6182b4da513672435701afe774f6a05793b258e974ff7dd93b4e0cbe6fe136",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1255,7 +1255,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "ff8e02af5c4935830d54f5582bc233cabc6e5173861ccafbb4de3c3bd3402808.zip"
+     "S3Key": "5a6e9a32f51fdc94d16afe354be104b84e2fc273cc450e9c6982010195ba9e92.zip"
     },
     "Environment": {
      "Variables": {
@@ -1281,7 +1281,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventPlatformInfrastructure/ListMyRegistrationsLambda/Resource",
-    "aws:asset:path": "asset.ff8e02af5c4935830d54f5582bc233cabc6e5173861ccafbb4de3c3bd3402808",
+    "aws:asset:path": "asset.5a6e9a32f51fdc94d16afe354be104b84e2fc273cc450e9c6982010195ba9e92",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }

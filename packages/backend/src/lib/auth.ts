@@ -17,8 +17,9 @@ export const authUser = (event: APIGatewayProxyEventV2): AuthUser => {
   const token = authHeader.substring(7);
   const decoded = verifyJwt(token) as any;
 
+  // JWT contains: { userId, email, role }
   return {
-    userId: decoded.userId || decoded.email,
+    userId: decoded.userId || decoded.email, // userId is the primary field
     email: decoded.email,
     role: decoded.role,
   };
