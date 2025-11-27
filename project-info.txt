@@ -1,0 +1,374 @@
+=== PROJECT STRUCTURE ===
+packages/backend/package.json
+packages/backend/src/auth/login.ts
+packages/backend/src/auth/signup.ts
+packages/backend/src/events/cancelRegistration.ts
+packages/backend/src/events/createEvent.ts
+packages/backend/src/events/getEvent.ts
+packages/backend/src/events/getEventRegistrations.ts
+packages/backend/src/events/listEvents.ts
+packages/backend/src/events/listEventsByDate.ts
+packages/backend/src/events/listMyEvents.ts
+packages/backend/src/events/listMyRegistrations.ts
+packages/backend/src/events/register.ts
+packages/backend/src/lib/auth.ts
+packages/backend/src/lib/db.ts
+packages/backend/src/lib/jwt.ts
+packages/backend/src/utils/user.ts
+packages/backend/tsconfig.json
+packages/frontend/vite-project/package.json
+packages/frontend/vite-project/src/api/auth.ts
+packages/frontend/vite-project/src/api/client.ts
+packages/frontend/vite-project/src/api/events.ts
+packages/frontend/vite-project/src/api/registrations.ts
+packages/frontend/vite-project/src/App.tsx
+packages/frontend/vite-project/src/contexts/AuthContext.tsx
+packages/frontend/vite-project/src/lib/api.ts
+packages/frontend/vite-project/src/main.tsx
+packages/frontend/vite-project/src/pages/CreateEvent.tsx
+packages/frontend/vite-project/src/pages/Dashboard.tsx
+packages/frontend/vite-project/src/pages/EventDetails.tsx
+packages/frontend/vite-project/src/pages/EventRegistrations.tsx
+packages/frontend/vite-project/src/pages/EventsList.tsx
+packages/frontend/vite-project/src/pages/Login.tsx
+packages/frontend/vite-project/src/pages/MyEvents.tsx
+packages/frontend/vite-project/src/pages/MyRegistrations.tsx
+packages/frontend/vite-project/src/pages/Signup.tsx
+packages/frontend/vite-project/src/vite-env.d.ts
+packages/frontend/vite-project/tsconfig.app.json
+packages/frontend/vite-project/tsconfig.json
+packages/frontend/vite-project/tsconfig.node.json
+packages/frontend/vite-project/vite.config.ts
+packages/infrastructure/bin/infrastructure.ts
+packages/infrastructure/cdk.json
+packages/infrastructure/lib/infrastructure-stack.ts
+packages/infrastructure/package.json
+packages/infrastructure/tsconfig.json
+packages/shared/package.json
+packages/shared/src/index.ts
+packages/shared/tsconfig.json
+
+
+=== ROOT PACKAGE.JSON ===
+{
+  "name": "event-platform",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @event/frontend dev",
+    "dev:backend": "pnpm --filter @event/backend dev",
+    "dev:all": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "build:backend": "pnpm --filter @event/backend build",
+    "build:frontend": "pnpm --filter @event/frontend build",
+    "build:infra": "pnpm --filter @event/infrastructure build",
+    "deploy": "pnpm build:backend && pnpm --filter @event/infrastructure deploy",
+    "deploy:infra": "pnpm --filter @event/infrastructure deploy",
+    "synth": "pnpm --filter @event/infrastructure synth",
+    "bootstrap": "pnpm --filter @event/infrastructure bootstrap",
+    "lint": "eslint . --ext .ts,.tsx,.js --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^8.56.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.5.4",
+    "vite": "^7.2.4"
+  }
+}
+
+=== BACKEND PACKAGE.JSON ===
+{
+  "name": "@event/backend",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "test": "echo 'No tests yet'"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.940.0",
+    "@aws-sdk/lib-dynamodb": "^3.940.0",
+    "aws-lambda": "^1.0.7",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.159",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.19.25",
+    "@types/uuid": "^9.0.8",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
+
+=== FRONTEND PACKAGE.JSON ===
+{
+  "name": "@event/frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "echo \"No tests yet\""
+  },
+  "dependencies": {
+    "@event/shared": "workspace:*",
+    "@tanstack/react-query": "^5.90.11",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "axios": "^1.13.2",
+    "jwt-decode": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.2",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^8.56.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4"
+  }
+}
+
+
+=== INFRASTRUCTURE PACKAGE.JSON ===
+{
+  "name": "@event/infrastructure",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "cdk deploy",
+    "synth": "cdk synth",
+    "bootstrap": "cdk bootstrap",
+    "destroy": "cdk destroy"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.229.1",
+    "constructs": "^10.4.3",
+    "esbuild": "^0.27.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
+
+=== BACKEND STRUCTURE ===
+packages/backend/src/:
+auth/
+events/
+lib/
+utils/
+
+packages/backend/src/auth:
+login.ts
+signup.ts
+
+packages/backend/src/events:
+cancelRegistration.ts
+createEvent.ts
+getEvent.ts
+getEventRegistrations.ts
+listEvents.ts
+listEventsByDate.ts
+listMyEvents.ts
+listMyRegistrations.ts
+register.ts
+
+packages/backend/src/lib:
+auth.ts
+db.ts
+jwt.ts
+
+packages/backend/src/utils:
+user.ts
+
+
+=== FRONTEND PAGES ===
+total 48
+drwxr-xr-x 1 USER 197121    0 Nov 26 22:03 ./
+drwxr-xr-x 1 USER 197121    0 Nov 26 15:53 ../
+-rw-r--r-- 1 USER 197121 3220 Nov 27 05:19 CreateEvent.tsx
+-rw-r--r-- 1 USER 197121 3253 Nov 27 05:09 Dashboard.tsx
+-rw-r--r-- 1 USER 197121 3444 Nov 26 22:09 EventDetails.tsx
+-rw-r--r-- 1 USER 197121 3595 Nov 26 22:11 EventRegistrations.tsx
+-rw-r--r-- 1 USER 197121 4183 Nov 26 22:10 EventsList.tsx
+-rw-r--r-- 1 USER 197121 2294 Nov 26 20:45 Login.tsx
+-rw-r--r-- 1 USER 197121 2853 Nov 26 22:55 MyEvents.tsx
+-rw-r--r-- 1 USER 197121 3703 Nov 26 22:11 MyRegistrations.tsx
+-rw-r--r-- 1 USER 197121 3029 Nov 26 20:46 Signup.tsx
+
+
+=== INFRASTRUCTURE STACK ===
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as apigateway from "aws-cdk-lib/aws-apigatewayv2";
+import { HttpLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
+import * as path from "path";
+
+export class InfrastructureStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const table = new dynamodb.Table(this, "EventTable", {
+      tableName: "EventTable",
+      partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "SK", type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const createLambda = (name: string, file: string) =>
+      new NodejsFunction(this, name, {
+        entry: path.join(__dirname, `../../backend/dist/${file}`),
+        handler: "handler",
+        runtime: lambda.Runtime.NODEJS_20_X,
+        timeout: cdk.Duration.seconds(10),
+        environment: {
+          TABLE_NAME: table.tableName,
+          JWT_SECRET: process.env.JWT_SECRET || "supersecret",
+        },
+      });
+
+    // Auth Lambdas
+    const signupLambda = createLambda("SignupLambda", "auth/signup.js");
+    const loginLambda = createLambda("LoginLambda", "auth/login.js");
+
+    // Event Lambdas
+    const createEventLambda = createLambda("CreateEventLambda", "events/createEvent.js");
+    const listEventsLambda = createLambda("ListEventsLambda", "events/listEvents.js");
+    const listMyEventsLambda = createLambda("ListMyEventsLambda", "events/listMyEvents.js");
+    const listEventsByDateLambda = createLambda("ListEventsByDateLambda", "events/listEventsByDate.js");
+    const getEventLambda = createLambda("GetEventLambda", "events/getEvent.js");
+    const getEventRegistrationsLambda = createLambda("GetEventRegistrationsLambda", "events/getEventRegistrations.js");
+
+    // Registration Lambdas
+    const registerLambda = createLambda("RegisterLambda", "events/register.js");
+    const cancelRegistrationLambda = createLambda("CancelRegistrationLambda", "events/cancelRegistration.js");
+    const listMyRegistrationsLambda = createLambda("ListMyRegistrationsLambda", "events/listMyRegistrations.js");
+
+    // Grant DynamoDB permissions to all lambdas
+    [
+      signupLambda,
+      loginLambda,
+      createEventLambda,
+      listEventsLambda,
+      listMyEventsLambda,
+      listEventsByDateLambda,
+      getEventLambda,
+      getEventRegistrationsLambda,
+      registerLambda,
+      cancelRegistrationLambda,
+      listMyRegistrationsLambda,
+    ].forEach((fn) => table.grantReadWriteData(fn));
+
+    const httpApi = new apigateway.HttpApi(this, "HttpApi", {
+      apiName: "EventPlatformApi",
+      corsPreflight: {
+        allowOrigins: ["*"],
+        allowMethods: [
+          apigateway.CorsHttpMethod.GET,
+          apigateway.CorsHttpMethod.POST,
+          apigateway.CorsHttpMethod.PUT,
+          apigateway.CorsHttpMethod.DELETE,
+          apigateway.CorsHttpMethod.OPTIONS,
+        ],
+        allowHeaders: ["Content-Type", "Authorization"],
+        maxAge: cdk.Duration.days(1),
+      },
+    });
+
+    // Auth Routes
+    httpApi.addRoutes({
+      path: "/auth/signup",
+      methods: [apigateway.HttpMethod.POST],
+      integration: new HttpLambdaIntegration("SignupIntegration", signupLambda),
+    });
+    httpApi.addRoutes({
+      path: "/auth/login",
+      methods: [apigateway.HttpMethod.POST],
+      integration: new HttpLambdaIntegration("LoginIntegration", loginLambda),
+    });
+
+    // Event Routes
+    httpApi.addRoutes({
+      path: "/events/all",
+      methods: [apigateway.HttpMethod.GET],
+      integration: new HttpLambdaIntegration("ListEventsIntegration", listEventsLambda),
+    });
+    httpApi.addRoutes({
+      path: "/events/my-events",
+      methods: [apigateway.HttpMethod.GET],
+      integration: new HttpLambdaIntegration("ListMyEventsIntegration", listMyEventsLambda),
+    });
+    httpApi.addRoutes({
+      path: "/events/by-date",
+      methods: [apigateway.HttpMethod.GET],
+      integration: new HttpLambdaIntegration("ListEventsByDateIntegration", listEventsByDateLambda),
+    });
+    httpApi.addRoutes({
+      path: "/events/create",
+      methods: [apigateway.HttpMethod.POST],
+      integration: new HttpLambdaIntegration("CreateEventIntegration", createEventLambda),
+    });
+    httpApi.addRoutes({
+      path: "/events/{id}",
+      methods: [apigateway.HttpMethod.GET],
+      integration: new HttpLambdaIntegration("GetEventIntegration", getEventLambda),
+    });
+    httpApi.addRoutes({
+      path: "/events/{id}/registrations",
+      methods: [apigateway.HttpMethod.GET],
+      integration: new HttpLambdaIntegration("GetEventRegistrationsIntegration", getEventRegistrationsLambda),
+    });
+
+    // Registration Routes
+    httpApi.addRoutes({
+      path: "/events/register",
+      methods: [apigateway.HttpMethod.POST],
+      integration: new HttpLambdaIntegration("RegisterIntegration", registerLambda),
+    });
+    httpApi.addRoutes({
+      path: "/events/cancel",
+      methods: [apigateway.HttpMethod.DELETE],
+      integration: new HttpLambdaIntegration("CancelRegistrationIntegration", cancelRegistrationLambda),
+    });
+    httpApi.addRoutes({
+      path: "/registrations",
+      methods: [apigateway.HttpMethod.GET],
+      integration: new HttpLambdaIntegration("ListMyRegistrationsIntegration", listMyRegistrationsLambda),
+    });
+
+    new cdk.CfnOutput(this, "ApiUrl", { value: httpApi.apiEndpoint });
+    new cdk.CfnOutput(this, "TableName", { value: table.tableName });
+  }
+}
+
+
+=== API ENDPOINTS ===
+        handler: "handler",

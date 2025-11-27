@@ -4,8 +4,8 @@ A full-stack serverless event management platform built with React, AWS CDK, Lam
 
 ## 🌐 Live Site
 
-**Frontend:** https://event-platform-vite-project.vercel.app/login  
-**API Gateway:** https://rfim8ivv3h.execute-api.us-east-1.amazonaws.com
+**Frontend:**  https://event-platform-vite-project.vercel.app/login 
+**API Gateway:**  https://rfim8ivv3h.execute-api.us-east-1.amazonaws.com
 
 ---
 
@@ -54,6 +54,10 @@ A full-stack serverless event management platform built with React, AWS CDK, Lam
 ---
 
 ## 📡 API Endpoints
+
+**Base URL:** `https://rfim8ivv3h.execute-api.us-east-1.amazonaws.com`
+
+All endpoints (except authentication) require an `Authorization: Bearer {token}` header.
 
 ### Authentication
 
@@ -324,7 +328,7 @@ Content-Type: application/json
 
 ### Prerequisites
 - Node.js 20.x or later
-- pnpm (or npm/yarn)
+- pnpm 
 - AWS Account
 - AWS CLI configured
 
@@ -332,7 +336,7 @@ Content-Type: application/json
 
 1. **Clone the repository**
 ```bash
-git clone <https://github.com/Ayirileslie/event-platform.git >
+git clone https://github.com/Ayirileslie/event-platform.git
 cd event-platform
 ```
 
@@ -532,4 +536,4 @@ This project is licensed under the MIT License.
 
 ## 📞 Support
 
-For issues or questions, please open an issue on GitHub or contact [kperegbeyiayiri@gmail.com]
+For issues or questions, please open an issue on GitHub or contact kperegbeyiayiri@gmail.com

@@ -14,49 +14,97 @@ export default function CreateEvent() {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    await createEvent(form);
-    navigate("/my-events");
+    try {
+      await createEvent(form);
+      navigate("/my-events");
+    } catch (error) {
+      console.error("Failed to create event:", error);
+      alert("Failed to create event. Please try again.");
+    }
   }
 
   return (
     <div className="p-8 max-w-lg mx-auto space-y-4">
-      <h1 className="text-3xl font-bold mb-4">Create Event</h1>
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <input
-          name="name"
-          placeholder="Name"
-          className="border p-2 w-full"
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-        <textarea
-          name="description"
-          placeholder="Description"
-          className="border p-2 w-full"
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-        />
-        <input
-          name="date"
-          type="date"
-          className="border p-2 w-full"
-          onChange={(e) => setForm({ ...form, date: e.target.value })}
-        />
-        <input
-          name="location"
-          placeholder="Location"
-          className="border p-2 w-full"
-          onChange={(e) => setForm({ ...form, location: e.target.value })}
-        />
-        <input
-          name="capacity"
-          type="number"
-          className="border p-2 w-full"
-          onChange={(e) => setForm({ ...form, capacity: +e.target.value })}
-        />
-        <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">
-          Create
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-3xl font-bold">Create Event</h1>
+        <button
+          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+          onClick={() => navigate("/")}
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">Event Name</label>
+          <input
+            name="name"
+            placeholder="Event Name"
+            className="border p-2 w-full rounded"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Description</label>
+          <textarea
+            name="description"
+            placeholder="Event Description"
+            className="border p-2 w-full rounded"
+            rows={4}
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Date</label>
+          <input
+            name="date"
+            type="date"
+            className="border p-2 w-full rounded"
+            value={form.date}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Location</label>
+          <input
+            name="location"
+            placeholder="Event Location"
+            className="border p-2 w-full rounded"
+            value={form.location}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Capacity</label>
+          <input
+            name="capacity"
+            type="number"
+            min="1"
+            className="border p-2 w-full rounded"
+            value={form.capacity}
+            onChange={(e) => setForm({ ...form, capacity: +e.target.value })}
+            required
+          />
+        </div>
+
+        <button 
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700"
+        >
+          Create Event
         </button>
       </form>
     </div>
   );
 }
-
